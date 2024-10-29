@@ -1,0 +1,42 @@
+---
+import Base from 'src/layouts/Base.astro'
+import * as home from 'src/content/home/home.md'
+import { getCollection } from 'astro:content'
+import Product from 'src/components/Product.astro'
+
+const products = await getCollection('products')
+
+const { Content: HomeContent } = home
+---
+
+<Base>
+	<section class="pt-48 bg-red-950 pb-8">
+		<div class="container">
+			<p class="text-8xl font-display text-center">{home.frontmatter.slogan}</p>
+			<div class="prose prose-invert mx-auto mt-24 prose-xl">
+				<HomeContent />
+			</div>
+		</div>
+	</section>
+	<svg
+		class="w-full fill-red-950"
+		viewBox="0 0 100 15"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<path d="M0 0 h 100 v 15 Z"></path>
+	</svg>
+	<section class="py-24">
+		<div class="max-w-2xl mx-auto px-4">
+			<h2 class="text-8xl font-display text-center">Les offres</h2>
+		</div>
+		<ul class="flex flex-wrap justify-center container gap-12 mt-12">
+			{
+				products.map((el) => (
+					<li class="basis-96">
+						<Product slug={el.slug} />
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</Base>
